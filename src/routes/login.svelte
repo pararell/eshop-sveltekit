@@ -28,32 +28,32 @@ const submitForm = (e) => {
         <h1>{$_('SignIn')} </h1>
 
         <form
-          class="sign-form mt-6">
-          <div class="my-5 text-sm">
+          class="sign-form">
+          <div class="my-2 text-sm">
               <label for="email" class="block text-black">Email</label>
               <input type="email" 
                 bind:value={email}
                 autofocus 
                 id="email" 
                 name="email"
-                class="" 
+                class="form-control"
                 placeholder="Email" />
           </div>
 
-          <div class="my-5 text-sm">
+          <div class="my-2 text-sm">
             <label for="password" class="block text-black">Password</label>
             <input type="password" 
               bind:value={password}
               id="password"
               name="password"
-              class="" 
+              class="form-control"
               placeholder="Password" />
         </div>
 
           <button
             on:click={(e) => submitForm(e)}
             type="submit"
-            class=""
+            class="btn btn-outline-secondary"
             color="primary">
             {$_('SignIn')}
           </button>

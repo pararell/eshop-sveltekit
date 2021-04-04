@@ -31,3 +31,10 @@ export const pagination = new BehaviorSubject({
         pagination.next(fromApi.pagination);
 	} catch (e) {}
 };
+
+export const fetchCategories = async (params) => {
+	try {
+		const fromApi = await get('api/products/categories' + params);
+		categories.next(fromApi);
+	} catch (e) {}
+};

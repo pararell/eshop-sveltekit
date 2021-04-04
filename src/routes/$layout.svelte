@@ -25,6 +25,13 @@
 <Nav path={$page.path} />
 
 <main>
-	<slot />
+	<div class="main">
+		<slot />
+	</div>
 </main>
 
+<style lang="scss">
+	.main {
+		padding: 1rem 0;
+	}
+</style>

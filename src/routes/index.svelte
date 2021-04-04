@@ -3,57 +3,79 @@
 </script>
 
 <script>
-	import { user } from '$lib/store/auth.store';
+	import { user, lang } from '$lib/store/auth.store';
+	import { categories, fetchCategories } from '../lib/store/product.store';
+
+	fetchCategories(`?lang=${lang.value}`);
 </script>
 
 <svelte:head>
 	<title>Home</title>
 </svelte:head>
 
-<main>
-
+<div class="container">
 	{#if $user}
 		<h1>Hello {$user.email}!</h1>
 	{/if}
 
-	
-</main>
+	{#if $categories && $categories?.length}
+		<div id="carouselExampleFade" class="carousel slide carousel-dark" data-bs-ride="carousel">
+			<div class="carousel-inner">
+				{#each $categories as category, i}
+					{#if !i}
+						<div class="carousel-item active">
+							<img
+								class="d-block w-100"
+								style="max-height: 500px; object-fit:contain;"
+								src={category.mainImage?.url}
+								alt={category.mainImage?.name}
+							/>
+							<h2 class="text-white text-uppercase" style="position: absolute; top: 50%; left: 40%;">
+								{category.title}
+							</h2>
+						</div>
+					{/if}
+					{#if i}
+						<div class="carousel-item">
+							<img
+								class="d-block w-100"
+								style="max-height: 500px; object-fit:contain;"
+								src={category.mainImage?.url}
+								alt={category.mainImage?.name}
+							/>
+							<h2 class="text-white text-uppercase" 
+								style="position: absolute; top: 50%; left: 40%; padding: 1rem; background: rgba(0,0,0,0.5); border-radius: 8px;">
+								{category.title}
+							</h2>
+						</div>
+					{/if}
+				{/each}
+			</div>
+			<button
+				class="carousel-control-prev"
+				type="button"
+				data-bs-target="#carouselExampleFade"
+				data-bs-slide="prev"
+			>
+				<span class="carousel-control-prev-icon" aria-hidden="true" />
+				<span class="visually-hidden">Previous</span>
+			</button>
+			<button
+				class="carousel-control-next"
+				type="button"
+				data-bs-target="#carouselExampleFade"
+				data-bs-slide="next"
+			>
+				<span class="carousel-control-next-icon" aria-hidden="true" />
+				<span class="visually-hidden">Next</span>
+			</button>
+		</div>
+	{/if}
+</div>
 
 <style lang="scss">
 	:root {
 		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
 			'Open Sans', 'Helvetica Neue', sans-serif;
-	}
-
-	main {
-		text-align: center;
-		padding: 1em;
-		margin: 0 auto;
-	}
-
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4rem;
-		font-weight: 100;
-		line-height: 1.1;
-		margin: 4rem auto;
-		max-width: 14rem;
-	}
-
-	p {
-		max-width: 14rem;
-		margin: 2rem auto;
-		line-height: 1.35;
-	}
-
-	@media (min-width: 480px) {
-		h1 {
-			max-width: none;
-		}
-
-		p {
-			max-width: none;
-		}
 	}
 </style>

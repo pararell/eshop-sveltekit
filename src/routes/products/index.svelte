@@ -21,27 +21,38 @@
 </svelte:head>
 
 <main>
-	{#if $products && $products?.length}
-		<div class="">
-			{#each $products as product}
-
-					<img
-						class=""
-						src={product.mainImage.url}
-                        alt={product.mainImage.url}
-					/>
-					<div class="">
-						<h3 class="">{product.regularPrice}</h3>
+	<div class="container">
+		{#if $products && $products?.length}
+			<div class="row align-items-start">
+				{#each $products as product}
+					<div class="col card-group" style="max-width: 20rem;">
+						<div class="card">
+							<img class="card-img-top img-fluid" style="height: 200px; object-fit: contain;"
+								src={product.mainImage.url} alt={product.mainImage.url} />
+							<div  class="card-body" style="height:200px;">
+								<div class="">
+									<h5 class="">{product.salePrice}</h5>
+								</div>
+								<div class="">
+									<h5 class="card-title">{product.title}</h5>
+									<p class="">{product.description}</p>
+								</div>
+							</div>
+	
+						</div>
 					</div>
-					<div class="">
-						<h1 class="">{product.title}</h1>
-						<p class="">{product.description}</p>
-					</div>
-			{/each}
-		</div>
-	{/if}
+				{/each}
+			</div>
+		{/if}
+	</div>
 </main>
 
 <style lang="scss">
-
+	.card {
+		border: none;
+		box-shadow: 0 0px 3px 0 rgb(0 0 0 / 15%);
+    	border-radius: 10px;
+		width: 18rem;
+		margin-bottom: 1rem;
+	}
 </style>
