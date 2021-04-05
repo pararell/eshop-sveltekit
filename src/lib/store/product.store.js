@@ -1,5 +1,5 @@
 import { BehaviorSubject } from 'rxjs';  
-import { get, post } from '$lib/api';
+import { get } from '$lib/api';
 
 export const products = new BehaviorSubject(null);
 export const product = new BehaviorSubject(null);
@@ -29,6 +29,7 @@ export const pagination = new BehaviorSubject({
         maxPrice.next(fromApi.maxPrice);
         minPrice.next(fromApi.minPrice);
         pagination.next(fromApi.pagination);
+    return fromApi.all;
 	} catch (e) {}
 };
 
@@ -36,5 +37,15 @@ export const fetchCategories = async (params) => {
 	try {
 		const fromApi = await get('api/products/categories' + params);
 		categories.next(fromApi);
+    return fromApi;
 	} catch (e) {}
 };
+
+export const fetchProduct = async (params) => {
+	try {
+		const fromApi = await get('api/products/' + params);
+		product.next(fromApi);
+    return fromApi;
+	} catch (e) {}
+};
+

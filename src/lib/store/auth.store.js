@@ -1,4 +1,4 @@
-import { accessTokenKey, currencyLang, languages } from '$lib/constats';
+import { accessTokenKey, currencyLang, languages } from '$lib/constants';
 import { get, post } from '$lib/api';
 import { dictionary } from 'svelte-i18n';
 

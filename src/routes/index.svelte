@@ -4,7 +4,8 @@
 
 <script>
 	import { user, lang } from '$lib/store/auth.store';
-	import { categories, fetchCategories } from '../lib/store/product.store';
+	import Categories from '$lib/Categories.svelte';
+	import { categories, fetchCategories } from '$lib/store/product.store';
 
 	fetchCategories(`?lang=${lang.value}`);
 </script>
@@ -12,6 +13,10 @@
 <svelte:head>
 	<title>Home</title>
 </svelte:head>
+
+<Categories categories={$categories} />
+
+
 
 <div class="container">
 	{#if $user}
@@ -22,33 +27,21 @@
 		<div id="carouselExampleFade" class="carousel slide carousel-dark" data-bs-ride="carousel">
 			<div class="carousel-inner">
 				{#each $categories as category, i}
-					{#if !i}
-						<div class="carousel-item active">
+						<a class="carousel-item" class:active={!i} href="{'/categories/' + category.titleUrl }">
 							<img
 								class="d-block w-100"
 								style="max-height: 500px; object-fit:contain;"
 								src={category.mainImage?.url}
 								alt={category.mainImage?.name}
 							/>
-							<h2 class="text-white text-uppercase" style="position: absolute; top: 50%; left: 40%;">
+							<h2
+								class="text-white text-uppercase"
+								style="position: absolute; top: 50%; left: 40%; padding: 1rem; background: rgba(0,0,0,0.5); border-radius: 8px;"
+							>
 								{category.title}
 							</h2>
-						</div>
-					{/if}
-					{#if i}
-						<div class="carousel-item">
-							<img
-								class="d-block w-100"
-								style="max-height: 500px; object-fit:contain;"
-								src={category.mainImage?.url}
-								alt={category.mainImage?.name}
-							/>
-							<h2 class="text-white text-uppercase" 
-								style="position: absolute; top: 50%; left: 40%; padding: 1rem; background: rgba(0,0,0,0.5); border-radius: 8px;">
-								{category.title}
-							</h2>
-						</div>
-					{/if}
+						</a>
+				
 				{/each}
 			</div>
 			<button

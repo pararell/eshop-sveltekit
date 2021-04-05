@@ -1,5 +1,5 @@
 import { browser, dev } from '$app/env';
-import { accessTokenKey } from './constats';
+import { accessTokenKey } from './constants';
 import Cookie from 'cookie-universal';
 const cookies = Cookie();
 

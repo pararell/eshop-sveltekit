@@ -18,7 +18,7 @@
 			</li>
 
 			<li class="nav-item">
-				<a href="/products" class:active={path === '/products'} class="nav-link"> Products </a>
+				<a href="/products" class:active={path === '/products' || path.includes('/categories')} class="nav-link"> Products </a>
 			</li>
 		  </ul>
 		  <form class="d-flex">

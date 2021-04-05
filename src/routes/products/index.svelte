@@ -3,10 +3,15 @@
 </script>
 
 <script>
-	import { sortOptions } from '$lib/constats';
+	import { sortOptions } from '$lib/constants';
 
-	import { fetchProducts, pagination, products } from '$lib/store/product.store';
+	import { fetchProducts, pagination, products, fetchCategories, categories} from '$lib/store/product.store';
 	import { lang } from '$lib/store/auth.store';
+	import Categories from '$lib/Categories.svelte';
+	import Products from '$lib/Products.svelte';
+	import Pagination from '$lib/Pagination.svelte';
+
+	fetchCategories(`?lang=${lang.value}`);
 
 	const sort = sortOptions[0].id;
 	const page = pagination.value.page;
@@ -14,45 +19,27 @@
 	const params = `?lang=${lang.value}&sort=${sort}&page=${page}`;
 
 	fetchProducts(params);
+
+	const changePage = (page) => {
+		if (page + pagination.value.page && pagination.value.pages !== (pagination.value.page + page) - 1) {
+			const newPage = pagination.value.page + page;
+			const params = `?lang=${lang.value}&sort=${sort}&page=${newPage}`;
+			fetchProducts(params);
+		}
+	}
+
 </script>
 
 <svelte:head>
 	<title>Products</title>
 </svelte:head>
 
+<Categories categories={$categories} />
+
 <main>
 	<div class="container">
-		{#if $products && $products?.length}
-			<div class="row align-items-start">
-				{#each $products as product}
-					<div class="col card-group" style="max-width: 20rem;">
-						<div class="card">
-							<img class="card-img-top img-fluid" style="height: 200px; object-fit: contain;"
-								src={product.mainImage.url} alt={product.mainImage.url} />
-							<div  class="card-body" style="height:200px;">
-								<div class="">
-									<h5 class="">{product.salePrice}</h5>
-								</div>
-								<div class="">
-									<h5 class="card-title">{product.title}</h5>
-									<p class="">{product.description}</p>
-								</div>
-							</div>
-	
-						</div>
-					</div>
-				{/each}
-			</div>
-		{/if}
-	</div>
+		<Products products={$products} />
+		<Pagination page={$pagination.page} on:prev={() => changePage(-1)} on:next={() => changePage(1)} />
 </main>
 
-<style lang="scss">
-	.card {
-		border: none;
-		box-shadow: 0 0px 3px 0 rgb(0 0 0 / 15%);
-    	border-radius: 10px;
-		width: 18rem;
-		margin-bottom: 1rem;
-	}
-</style>
+
