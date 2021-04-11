@@ -13,7 +13,6 @@
 	import { page } from '$app/stores';
 
 
-
 	const cookies = Cookie();
 	const cookieLang = cookies.get('eshop_lang') || 'en';
 
@@ -36,6 +35,7 @@
 			return 0;
 		}
 	))
+
 </script>
 
 <Nav path={$page.path} itemsInCart={$itemsInCart}/>
