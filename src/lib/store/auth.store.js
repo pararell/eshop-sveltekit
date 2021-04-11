@@ -17,6 +17,7 @@ export const fetchUser = async () => {
 	try {
 		const userAuth = await get('api/auth');
 		user.next(userAuth);
+		return user;
 	} catch (e) {}
 };
 
@@ -33,8 +34,6 @@ export const signIn = async (request) => {
 	try {
 		const userSign = await post('api/auth/signin', request);
 		user.next(userSign);
-
-		console.log(user, browser, 'browser');
 
 		if (userSign && userSign.accessToken && browser) {
 			localStorage.setItem(accessTokenKey, userSign.accessToken);

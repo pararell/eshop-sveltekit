@@ -1,5 +1,5 @@
 <script context="module">
-    import { fetchProduct, fetchCategories, categories} from '$lib/store/product.store';
+    import { fetchProduct, fetchCategories, categories, addToCart, removeFromCart, productWithCart} from '$lib/store/product.store';
     import { lang } from '$lib/store/auth.store';
 	export async function load({ page, fetch }) {
 		const { slug } = page.params;
@@ -10,7 +10,7 @@
         fetchCategories(`?lang=${lang.value}`);
 
 		return {
-			props: { slug, product }
+			props: { slug }
 		};
 	}
 </script>
@@ -20,9 +20,18 @@
     import {currencyLang} from '$lib/constants';
 
     export let slug;
-    export let product;
 
     let currency = currencyLang[lang.value];
+
+
+	const addToCartProduct = (product) => {
+		addToCart('?id=' + product._id);
+	};
+
+	const takeFromCartProduct = (product) => {
+		removeFromCart('?id=' + product._id);
+	};
+
 </script>
 
 <svelte:head>
@@ -32,22 +41,38 @@
 <Categories categories={$categories} />
 
 <div class="container">
-    {#if product}
+    {#if $productWithCart}
     <div class="card-group">
         <div class="card">
             <img
                 class="card-img-top img-fluid"
                 style="height: 300px; object-fit: contain;"
-                src={product.mainImage.url}
-                alt={product.mainImage.url}
+                src={$productWithCart.mainImage.url}
+                alt={$productWithCart.mainImage.url}
             />
             <div class="card-body">
-                <div class="">
-                    <h5 class="">{product.salePrice} {currency}</h5>
+                <div class="flex">
+                    <h5 class="">{$productWithCart.salePrice} {currency}</h5>
+                    <i
+                        class="bi-cart-plus-fill clickable"
+                        on:click={(e) => addToCartProduct($productWithCart)}
+                        style="font-size: 1.2rem; line-height: 1; margin-left: 1rem;"
+                    />
+                    {#if $productWithCart.inCart}
+                        <span style="margin-left: 1rem;">
+                            {$productWithCart.inCart.qty}
+                        </span>
+
+                        <i
+                            class="bi-cart-dash-fill clickable"
+                            on:click={(e) => takeFromCartProduct($productWithCart)}
+                            style="font-size: 1.2rem; line-height: 1; margin-left: 1rem;"
+                        />
+                    {/if}
                 </div>
                 <div class="">
-                    <h5 class="card-title">{product.title}</h5>
-                    <p class="">{product.description}</p>
+                    <h5 class="card-title">{$productWithCart.title}</h5>
+                    <p class="">{$productWithCart.description}</p>
                 </div>
             </div>
         </div>

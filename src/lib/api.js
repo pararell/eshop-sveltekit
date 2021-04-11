@@ -16,7 +16,7 @@ typeof window !== 'undefined'
       'Content-Type': 'application/json',
       lang: cookies.get('eshop_lang') || 'en'
     },
-    withCredentials: true
+    credentials: 'include'
   }
 
   if (data) {
